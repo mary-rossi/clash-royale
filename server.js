@@ -21,6 +21,9 @@ db.on("disconnected", () => console.log("Mongo is disconnected."));
 
 // Routes
 // Index
+app.get("/", (req, res) => {
+    res.render("index.ejs")
+})
 
 // New
 
