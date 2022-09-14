@@ -1,7 +1,6 @@
 // Dependencies
 const express = require("express");
 const app = express();
-const cors = require('cors');
 require ('dotenv').config();
 const mongoose = require("mongoose");
 const { response } = require("express");
@@ -23,7 +22,6 @@ const allCards = require("./data");
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
 
 /************
 Page templates
@@ -50,8 +48,13 @@ API Routes
 
 // Index, get- read
 app.get("/get-cards/:limit", async (req, res) => {
-    const cards = allCards.slice(0, req.params.limit)
-    res.send(cards)
+    let randomCards = [];
+
+    for (let i = 0; i < req.params.limit; i++) {
+        const randomIndex = Math.floor(Math.random() * allCards.length)
+        randomCards.push(allCards[randomIndex])
+    };
+    res.send(randomCards);
 });
 
 
