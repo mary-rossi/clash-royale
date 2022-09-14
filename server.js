@@ -1,11 +1,11 @@
 // Dependencies
 const express = require("express");
 const app = express();
-require ('dotenv').config();
+require ("dotenv").config();
 const mongoose = require("mongoose");
 const { response } = require("express");
 const PORT = process.env.PORT;
-const allCards = require("./data");
+const allCards = require("./models/data");
 
 // Connect to MongoDB Atlas
 // mongoose.connect(process.env.DATABASE_URL, {
@@ -18,7 +18,6 @@ const allCards = require("./data");
 // db.on("error", (err) => console.log(err.message + " Is mongo not running?!"));
 // db.on("connected", () => console.log("Mongo is connected."));
 // db.on("disconnected", () => console.log("Mongo is disconnected."));
-
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));

@@ -12,7 +12,9 @@
 <!-- enabling cores in fetch api - referred stackoverflow -->
 <script>
     async function clickHandler() {
-        await fetch("/get-cards/8")
+        const response = await fetch("/get-cards/8")
+        const data = await response.json();
+        console.log(data)
     }
 </script>
 </html>
