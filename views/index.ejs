@@ -6,6 +6,13 @@
 </head>
 <body>
     <div id="deck-container"></div>
-    <button>Generate Deck</button>
+    <!-- referred to freecodecamp HTML button onclick -->
+    <button onclick="clickHandler()">Generate Deck</button>
 </body>
+<!-- enabling cores in fetch api - referred stackoverflow -->
+<script>
+    async function clickHandler() {
+        await fetch("/get-cards/8")
+    }
+</script>
 </html>

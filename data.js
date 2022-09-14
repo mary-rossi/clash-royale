@@ -1,5 +1,4 @@
-export default {
-    "items": [
+module.exports = [
       {
         "name": "Knight",
         "id": 26000000,
@@ -857,5 +856,4 @@ export default {
         }
       }
     ]
-  }
   
