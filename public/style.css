@@ -10,6 +10,11 @@ h1 {
     -webkit-text-stroke: 2px #0047AB;
 }
 
+#home-buttons {
+    display: flex;
+    justify-content: center;
+}
+
 body {
     background-color: blue;
     background-image: url("background-image.jpg");
