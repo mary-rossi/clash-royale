@@ -2,6 +2,14 @@ html, body {
     height:100%;
 } 
 
+h1 {
+    display: flex;
+    justify-content: center;
+    font-family: Supercell-Magic;
+    color: gold;
+    -webkit-text-stroke: 2px #0047AB;
+}
+
 body {
     background-color: blue;
     background-image: url("background-image.jpg");
@@ -10,6 +18,9 @@ body {
     overflow: hidden;
 }
 
+button {
+    text-align: center;
+}
 #deck-container {
     display: grid;
     grid-template-columns: 100px 100px 100px 100px;
@@ -20,8 +31,8 @@ body {
     width: 100px;
 }
 
-.card > p {
+/* .card > p {
     
 
-}
+} */
 
