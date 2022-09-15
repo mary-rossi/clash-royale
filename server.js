@@ -21,31 +21,28 @@ const allCards = require("./models/data");
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public')); 
 
 /************
 Page templates
 *************/
 
-// Index, get- read
+// Render Index Page
 app.get("/", (req, res) => {
     res.render("index.ejs")
 });
 
-// New
+// Render Saved Decks Page
+app.get("/saved-decks", (req, res) => {
+    // res.render("saved-decks.ejs")
+});
 
-// Delete, delete
-
-// Update, patch/put
-
-// Create, post
-
-// Show
 
 /*********
 API Routes
 **********/
 
-// Index, get- read
+// GET / Read
 app.get("/get-cards/:limit", async (req, res) => {
     let randomCards = [];
 
@@ -55,6 +52,15 @@ app.get("/get-cards/:limit", async (req, res) => {
     };
     res.send(randomCards);
 });
+
+// POST / Create / Save
+app.post("", async () => {})
+
+// PATCH / Update / Edit
+app.patch("", async () => {})
+
+// DELETE / Remove
+app.delete("", async () => {})
 
 
 //Listener

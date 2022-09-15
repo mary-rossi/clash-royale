@@ -2,19 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/style.css" />
     <title>Document</title>
 </head>
 <body>
+    <button onclick="generateDeck()">Generate Deck</button>
+    <button onclick="showSaveInput()">Save Deck</button>
     <div id="deck-container"></div>
     <!-- referred to freecodecamp HTML button onclick -->
-    <button onclick="clickHandler()">Generate Deck</button>
 </body>
-<!-- enabling cores in fetch api - referred stackoverflow -->
 <script>
-    async function clickHandler() {
+    const deckContainer = document.getElementById('deck-container')
+
+    // State
+    let activeDeck = null;
+
+    
+    async function generateDeck() {  
+        deckContainer.innerHTML = "";  
         const response = await fetch("/get-cards/8")
         const data = await response.json();
+        activeDeck = data;
         console.log(data)
+
+        for (i = 0; i < data.length; i++) {
+            const div = document.createElement("div")
+            const card = data[i]
+
+            div.classList.add("card")
+            div.innerHTML = `
+                <img src = ${card.iconUrls.medium}>
+                <p>${card.name}</p>
+            `
+            deckContainer.append(div)
+        }
     }
+
+    function showSaveInput() {
+        const nameInput = document.createElement("input");
+        nameInput.placeholder = "Enter deck name";
+
+        const saveBtn = document.createElement("button");
+        saveBtn.style.backgroundColor = "green";
+        saveBtn.style.color = "white";
+        saveBtn.innerText = "Confirm Save";
+        saveBtn.onclick = () => confirmSave(nameInput.value);
+
+        const saveContainer = document.createElement("div");
+        saveContainer.append(nameInput, saveBtn);
+
+        saveContainer.style.display = "flex";
+
+        deckContainer.append(saveContainer)
+    }
+
+    async function confirmSave(name) {
+        console.log("CONFIRM SAVE:", { name: name, deck: activeDeck })
+        
+        // saveToMongoDB(name, activeDeck)
+    }
+    
 </script>
 </html>

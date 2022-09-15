@@ -1,0 +1,27 @@
+html, body {
+    height:100%;
+} 
+
+body {
+    background-color: blue;
+    background-image: url("background-image.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+#deck-container {
+    display: grid;
+    grid-template-columns: 100px 100px 100px 100px;
+}
+
+/* css selector > only applies to direct child */
+.card > img {
+    width: 100px;
+}
+
+.card > p {
+    
+
+}
+
