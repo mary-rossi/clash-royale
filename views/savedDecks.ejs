@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <title>Document</title>
+
+</head>
+<body>
+    <nav>
+        <a href="/"><button>Home</button></a>
+        <a href="/saved-decks"><button>Saved Decks</button></a>
+    </nav>
+
+    <main>
+        <h1>Saved Battle Decks</h1>
+
+        <div id="all-saved-decks-container"></div>
+    </main>
+</body>
+<script>
+    const savedDecksContainer = document.getElementById("all-saved-decks-container");
+
+    // Sends GET request to get all saved decks
+    async function getAllDecks() {
+        // returns our response object
+        const response = await fetch("/decks/all");
+
+        // returns data from response
+        const decks = await response.json();
+        console.log("DECKS:", decks)
+
+        // save data to global variable so we can use it later
+        return decks;
+    }
+
+    // Immediately get all saved decks as soon as page loads
+    getAllDecks().then(allSavedDecks => {
+        console.log(allSavedDecks)
+
+        // adding edit & delete buttons to each saved deck
+        for (i = 0; i < allSavedDecks.length; i++) {
+            const deck = allSavedDecks[i]
+
+            const editBtn = document.createElement("button");
+            editBtn.innerText = "Edit Name";
+            editBtn.onclick = () => {
+                let newNameValue = null;
+
+                const nameInput = document.createElement("input");
+                nameInput.placeholder = "Enter new deck name";
+                
+                const confirmBtn = document.createElement("button");
+                confirmBtn.innerText = "Confirm";
+                confirmBtn.onclick = async () => {
+                    await fetch("/deck/edit", {
+                        headers: {
+                            "Accept": "application/json",
+                            "Content-Type": "application/json"
+                        },
+                        method: "PATCH",
+                        // Using "spread" operator here (ie. "...deck") to destructure our deck object
+                        // because I want all of it's properties, except I want to modify just one
+                        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
+                        body: JSON.stringify({
+                            deck: deck,
+                            nameUpdate: nameInput.value
+                        })
+                    })
+                        .then(async (res) => {
+                            console.log("NEW NAME :D")
+                            const data = await res.json()
+                            console.log(data)
+
+                            // Insert new name
+                            const deckName = document.getElementById("deck-name-" + deck._id)
+                            deckName.innerText = data.newDeck.name;
+
+                            // hide the newNameInputDiv
+                            const inputDiv = document.getElementById("new-name-input-div-" + deck._id)
+                            inputDiv.remove();
+
+                            // show the delete button
+                            const deleteBtnToShow = document.getElementById("delete-btn-" + deck._id)
+                            deleteBtnToShow.style.display = "block";
+                        })
+                };
+
+                const newNameInputDiv = document.createElement("div");
+                newNameInputDiv.append(nameInput, confirmBtn);
+                newNameInputDiv.id = "new-name-input-div-" + deck._id
+
+                const deleteBtnToHide = document.getElementById("delete-btn-" + deck._id)
+                deleteBtnToHide.style.display = "none";
+                
+                const deckWeAreEditing = document.getElementById("deck-" + deck._id)
+                deckWeAreEditing.append(newNameInputDiv);
+            };
+
+            const deleteBtn = document.createElement("button");
+            deleteBtn.innerText = "Delete Deck";
+            deleteBtn.id = "delete-btn-" + deck._id;
+            deleteBtn.onclick = async () => {
+                fetch(`/deck/delete/${deck._id}`, {
+                    method: "DELETE"
+                })
+                    .then(response => {
+                        if (response.status === 200) {
+                            const deckToDelete = document.getElementById("deck-" + deck._id);
+                            deckToDelete.remove();
+                        }
+                    })
+            };
+
+            const allCardsDiv = document.createElement("div");
+            allCardsDiv.classList.add("deck-container")
+            
+            // use another for-loop to create our deck div
+            for (v = 0; v < deck.cards.length; v++) {
+                const card = deck.cards[v]
+                const singleCardDiv = document.createElement("div")
+                
+                singleCardDiv.classList.add("card")
+                singleCardDiv.innerHTML = `
+                    <img src = ${card.icon}>
+                `
+
+                allCardsDiv.append(singleCardDiv)
+            }
+
+            const deckName = document.createElement("h2")
+            deckName.innerText = deck.name;
+            deckName.id = "deck-name-" + deck._id;
+
+            const deckDiv = document.createElement("div");
+            deckDiv.classList.add("saved-deck-container")
+            deckDiv.id = "deck-" + deck._id;
+            deckDiv.append(deckName, allCardsDiv, editBtn, deleteBtn)
+
+            savedDecksContainer.append(deckDiv)
+        }
+    });
+</script>
+</html>

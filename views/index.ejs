@@ -5,20 +5,27 @@
     <link rel="stylesheet" type="text/css" href="style.css" />
     <title>Document</title>
 </head>
-<body>
-    <h1>Clash Royale Battle Decks</h1>
+<body id="index-page">
+    <nav>
+        <a href="/"><button>Home</button></a>
+        <a href="/saved-decks"><button>Saved Decks</button></a>
+    </nav>
 
-    <div id="home-buttons">
-        <button onclick="generateDeck()">Generate Deck</button>
-        <button onclick="showSaveInput()">Save Deck</button>
-    </div>
+    <main>
+        <h1>Clash Royale Battle Decks</h1>
 
-    <div id="deck-container"></div>
-    <!-- referred to freecodecamp HTML button onclick -->
+        <div id="home-buttons">
+            <button onclick="generateDeck()">Generate Deck</button>
+            <button onclick="showSaveInput()">Save Deck</button>
+        </div>
+
+        <div class="deck-container"></div>
+        <!-- referred to freecodecamp HTML button onclick -->
+    </main>
 </body>
 <script>
-    const deckContainer = document.getElementById('deck-container')
-
+    const deckContainer = document.querySelector('.deck-container')
+    console.log("deckContainer:", deckContainer)
     // State
     let activeDeck = null;
 
@@ -61,10 +68,21 @@
         deckContainer.append(saveContainer)
     }
 
+    // send POST request to post to connect to express route to send to mongodb
     async function confirmSave(name) {
-        console.log("CONFIRM SAVE:", { name: name, deck: activeDeck })
+        const deckToSave = {
+            name: name,
+            cards: activeDeck
+        }
 
-        // saveToMongoDB(name, activeDeck)
+        fetch("/deck/save", {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json" 
+            },
+            body: JSON.stringify(deckToSave)
+        });
     }
     
 </script>
