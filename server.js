@@ -24,6 +24,19 @@ db.on("disconnected", () => console.log("Mongo is disconnected."));
 // Middleware
 app.use(express.static('public')); 
 
+app.use((req, res, next) => {
+    const err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
+
+app.use((err, req, res, next) => {
+    res.locals.error = err;
+    const status = err.status || 500;
+    res.status(status);
+    res.render('error');
+});
+
 // Commented out this line because it was causing our req.body to be empty on POST requests
 // app.use(express.urlencoded({ extended: true }));
 
