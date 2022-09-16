@@ -14,7 +14,7 @@ Technologies Used:
 - MongoDB
 - EJS
 
-<Getting Started: In this section include the link to your deployed app and any instructions you deem important>
+Link to App hosted on Heroku: https://clash-royale-battle-deck.herokuapp.com/
 
 Next Steps:
 
