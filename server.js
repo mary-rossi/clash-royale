@@ -6,18 +6,19 @@ const mongoose = require("mongoose");
 const { response } = require("express");
 const PORT = process.env.PORT;
 const allCards = require("./models/data");
+const Card = require("./models/deck");
 
 // Connect to MongoDB Atlas
-// mongoose.connect(process.env.DATABASE_URL, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true
-// });
+mongoose.connect(process.env.DATABASE_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 
 // Data connection error/success
-// const db = mongoose.connection;
-// db.on("error", (err) => console.log(err.message + " Is mongo not running?!"));
-// db.on("connected", () => console.log("Mongo is connected."));
-// db.on("disconnected", () => console.log("Mongo is disconnected."));
+const db = mongoose.connection;
+db.on("error", (err) => console.log(err.message + " Is mongo not running?!"));
+db.on("connected", () => console.log("Mongo is connected."));
+db.on("disconnected", () => console.log("Mongo is disconnected."));
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -43,7 +44,7 @@ API Routes
 **********/
 
 // GET / Read
-app.get("/get-cards/:limit", async (req, res) => {
+app.get("/cards/:limit", async (req, res) => {
     let randomCards = [];
 
     for (let i = 0; i < req.params.limit; i++) {
@@ -53,14 +54,26 @@ app.get("/get-cards/:limit", async (req, res) => {
     res.send(randomCards);
 });
 
+// GET / Read
+app.get("/deck", async (req, res) => {
+    // read deck from database
+    res.send(deck);
+});
+
 // POST / Create / Save
-app.post("", async () => {})
+app.post("/deck/save", async () => {
+    // save deck to database
+})
 
 // PATCH / Update / Edit
-app.patch("", async () => {})
+app.patch("/deck/edit", async () => {
+    // edit deck that's in database
+})
 
 // DELETE / Remove
-app.delete("", async () => {})
+app.delete("/deck/delete", async () => {
+    // delete deck from database
+})
 
 
 //Listener

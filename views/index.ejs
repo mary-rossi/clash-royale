@@ -2,12 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <title>Document</title>
 </head>
 <body>
-    <button onclick="generateDeck()">Generate Deck</button>
-    <button onclick="showSaveInput()">Save Deck</button>
+    <h1>Clash Royale Battle Decks</h1>
+
+    <div id="home-buttons">
+        <button onclick="generateDeck()">Generate Deck</button>
+        <button onclick="showSaveInput()">Save Deck</button>
+    </div>
+
     <div id="deck-container"></div>
     <!-- referred to freecodecamp HTML button onclick -->
 </body>
@@ -20,7 +25,7 @@
     
     async function generateDeck() {  
         deckContainer.innerHTML = "";  
-        const response = await fetch("/get-cards/8")
+        const response = await fetch("/cards/8")
         const data = await response.json();
         activeDeck = data;
         console.log(data)
@@ -31,7 +36,7 @@
 
             div.classList.add("card")
             div.innerHTML = `
-                <img src = ${card.iconUrls.medium}>
+                <img src = ${card.icon}>
                 <p>${card.name}</p>
             `
             deckContainer.append(div)
@@ -58,7 +63,7 @@
 
     async function confirmSave(name) {
         console.log("CONFIRM SAVE:", { name: name, deck: activeDeck })
-        
+
         // saveToMongoDB(name, activeDeck)
     }
     
