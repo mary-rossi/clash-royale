@@ -48,6 +48,7 @@ button {
 .deck-container {
     display: grid;
     grid-template-columns: 100px 100px 100px 100px;
+    justify-content: center;
 }
 
 #all-saved-decks-container .deck-container {
