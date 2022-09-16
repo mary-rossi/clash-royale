@@ -2,7 +2,7 @@
 
 Clash Royale Battle Decks: This web application generates random battle decks for the mobile game Clash Royale. The user has the ability to save an unlimited amount of battle decks. The user also can edit the name of their deck and delete any decks.
 
-![App Screenshot]("./public/app-screenshot.png")
+![App Screenshot]("public/app-screenshot.png")
 
 Technologies Used:
 
